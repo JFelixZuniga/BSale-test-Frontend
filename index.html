@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BSale Store</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="sticky-top header-bg">
+      <div
+        class="
+          bg-warning
+          py-1
+          text-center text-white text-uppercase
+          header-offer
+        "
+      >
+        Compra antes de las 14:00 hrs y recibe hoy mismo tu pedido
+      </div>
+      <section class="container py-3">
+        <div class="row">
+          <div class="col-md-3 my-auto">
+            <img
+              src="https://dojiw2m9tvv09.cloudfront.net/28380/1/article/4/slide19779.jpg"
+              alt=""
+              srcset=""
+              width="150"
+            />
+          </div>
+          <div class="col-md-6 d-flex justify-content-center h-100 w-75">
+            <div class="searchbar pl-4 d-none d-md-block">
+              <input
+                class="search_input"
+                type="text"
+                name=""
+                placeholder="Buscar..."
+                id="input_search"
+                onkeyup="searchProduct()"
+              />
+              <a
+                href="#"
+                class="
+                  search_icon
+                  d-flex
+                  justify-content-center
+                  align-items-center
+                "
+                ><i class="fas fa-search"></i
+              ></a>
+            </div>
+          </div>
+          <div class="col-md-3 d-flex justify-content-end">
+            <p class="d-inline pointer my-auto mr-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="44"
+                height="44"
+                viewBox="0 0 24 24"
+                style="fill: rgba(0, 0, 0, 0.8); transform: ; msfilter: "
+              >
+                <path
+                  d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"
+                ></path>
+              </svg>
+            </p>
+            <p
+              class="d-inline pointer my-auto"
+              data-toggle="modal"
+              data-target="#productsModal"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="44"
+                height="44"
+                viewBox="0 0 24 24"
+                style="fill: rgba(0, 0, 0, 0.8); transform: ; msfilter: "
+              >
+                <path
+                  d="M21 4H2v2h2.3l3.521 9.683A2.004 2.004 0 0 0 9.7 17H18v-2H9.7l-.728-2H18c.4 0 .762-.238.919-.606l3-7A.998.998 0 0 0 21 4z"
+                ></path>
+                <circle cx="10.5" cy="19.5" r="1.5"></circle>
+                <circle cx="16.5" cy="19.5" r="1.5"></circle>
+              </svg>
+            </p>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <nav class="navbar navbar-expand-lg navbar-light">
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarNavDropdown"
+              aria-controls="navbarNavDropdown"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav mx-auto pt-3 h5 text-uppercase">
+                <li class="nav-item">
+                  <a class="nav-link" href="#" onclick="getAllProductsMenu()"
+                    >Todos los productos</a
+                  >
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href="#" onclick="getCategory('pisco')"
+                    >Pisco</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" onclick="getCategory('ron')"
+                    >Ron</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" onclick="getCategory('bebida')"
+                    >Bebidas</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" onclick="getCategory('snack')"
+                    >Snack</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" onclick="getCategory('cerveza')"
+                    >Cerveza</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" onclick="getCategory('vodka')"
+                    >Vodka</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    href="#"
+                    onclick="getCategory('bebida energetica')"
+                    >Bebidas energéticas</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </section>
+      <div class="alert container alert-success hide" role="alert">
+        Producto agregado al carrito.
+      </div>
+    </header>
+
+    <div
+      class="modal fade"
+      id="productsModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Productos Agregados
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table
+              class="table table-striped table-hover table-light text-center"
+            >
+              <thead class="thead-dark">
+                <tr class="text-primary">
+                  <th scope="col">Productos</th>
+                  <th scope="col">nombre</th>
+                  <th scope="col">Precio</th>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody class="tbody"></tbody>
+            </table>
+          </div>
+          <div class="row mx-4">
+            <div class="col">
+              <h3 class="itemCartTotal text-dark">Total: 0</h3>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Cerrar
+            </button>
+            <button type="button" class="btn btn-primary btn-pagar">
+              Pagar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main class="my-5">
+      <div class="container">
+        <div class="row" id="contenedor_products"></div>
+      </div>
+    </main>
+
+    <footer class="pt-5" id="footer">
+      <div class="container">
+        <div
+          class="row text-center text-xs-center text-sm-left text-md-left pb-3"
+        >
+          <div class="col-xs-12 col-sm-4 col-md-4">
+            <h5>Nuestros Productos</h5>
+            <ul class="list-unstyled quick-links">
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>Home</a
+                >
+              </li>
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>About</a
+                >
+              </li>
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>FAQ</a
+                >
+              </li>
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>Get Started</a
+                >
+              </li>
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>Videos</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4">
+            <h5>Quienes Somos</h5>
+            <ul class="list-unstyled quick-links">
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>Home</a
+                >
+              </li>
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>About</a
+                >
+              </li>
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>FAQ</a
+                >
+              </li>
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>Get Started</a
+                >
+              </li>
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>Videos</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4">
+            <h5>Nuestras Redes</h5>
+            <ul class="list-unstyled quick-links">
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>Home</a
+                >
+              </li>
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>About</a
+                >
+              </li>
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>FAQ</a
+                >
+              </li>
+              <li>
+                <a href="https://www.bsale.cl/" target="_blank"
+                  ><i class="fa fa-angle-double-right"></i>Get Started</a
+                >
+              </li>
+              <li>
+                <a href="https://www.bsale.cl/"
+                  ><i class="fa fa-angle-double-right"></i>Imprint</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="bg-dark py-3">
+        <div
+          class="
+            col-xs-12 col-sm-12 col-md-12
+            mt-2 mt-sm-2
+            text-center text-white
+          "
+        >
+          <p class="h6">
+            © All right Reversed -
+            <a href="https://www.bsale.cl/" target="_blank">BSale Store</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+      integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+      crossorigin="anonymous"
+    ></script>
+    <script defer src="./assets/js/main.js"></script>
+    <script defer src="./assets/js/shopping-cart.js"></script>
+  </body>
+</html>
