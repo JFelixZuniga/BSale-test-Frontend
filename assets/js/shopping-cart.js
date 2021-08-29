@@ -11,14 +11,16 @@ document.addEventListener("click", (event) => {
   }
 });
 
+// Creamos un objeto a partir del producto selecionado al agregarlo al carro
 const addToCarritoItem = (event) => {
   const button = event.target;
+  // Obtenemos el contenedor padre más cercano que contenga la clase "card", para luego construir el objeto con su contenido
   const item = button.closest(".card");
 
   const itemTitle = item.querySelector(".title").textContent;
   const itemPrice = item.querySelector(".price").textContent.split("$")[1];
   const itemImg = item.querySelector(".pic-1").src;
-
+  // Creamos un objeto con el contenido del producto seleccionado
   const newItem = {
     title: itemTitle,
     price: itemPrice,
@@ -26,19 +28,24 @@ const addToCarritoItem = (event) => {
     cantidad: 1,
   };
 
+  // Agregamos el nuevo producto (objeto creado)
   addItemCarrito(newItem);
 };
 
 const addItemCarrito = (newItem) => {
   const alert = document.querySelector(".alert");
 
+  // Muestra una alerta informando que el producto fue agregado con éxito
   setTimeout(function () {
     alert.classList.add("hide");
   }, 1000);
   alert.classList.remove("hide");
 
+  // Obtenemos un arreglo con los elementos input hijos
   const InputElemnto = tbody.getElementsByClassName("input-elemento");
+  // Recorremos el arreglo
   for (let i = 0; i < carrito.length; i++) {
+    // Si existe el nuevo objeto agregado al carro en el arreglo carrito, le sumamos 1 en cantidad
     if (carrito[i].title.trim() === newItem.title.trim()) {
       carrito[i].cantidad++;
       const inputValue = InputElemnto[i];
@@ -47,12 +54,13 @@ const addItemCarrito = (newItem) => {
       return null;
     }
   }
-
+  // Agregamos el objeto (producto selecionado) al arreglo carrito
   carrito.push(newItem);
-
+  // Renderizamos el carrito con el nuevo objeto agregado al arreglo
   renderCarrito();
 };
 
+// Función que crea y renderiza el carrito
 const renderCarrito = () => {
   tbody.innerHTML = "";
   carrito.map((item) => {
@@ -87,18 +95,22 @@ const renderCarrito = () => {
   CarritoTotal();
 };
 
+// Función que tiene por finalidad detemrinar el total a pagar de acuerdo a los productos agregados al carro
 const CarritoTotal = () => {
   let Total = 0;
   const itemCartTotal = document.querySelector(".itemCartTotal");
+  // Recorremos el arreglo carrito para obtener el precio y la cantidad de productos
   carrito.forEach((item) => {
     const precio = Number(item.price);
     Total = Total + precio * item.cantidad;
   });
 
+  // Insertamos el total en el html
   itemCartTotal.innerHTML = `Total a Pagar $${Total.toLocaleString("de-DE")}`;
   addLocalStorage();
 };
 
+// Para eliminar un objeto del arreglo carrito, recorremos el arreglo hasta encontrar el atributo "title" del objeto a eliminar y mediante el método splice eliminamos el elemento conforme al índice dado en el recorrido del arreglo
 const removeItemCarrito = (e) => {
   const buttonDelete = e.target;
   const tr = buttonDelete.closest(".ItemCarrito");
@@ -109,6 +121,7 @@ const removeItemCarrito = (e) => {
     }
   }
 
+  // Al remover el tr seleccionado volvemos a llamar a la función CarritoTal para actualizar el total
   tr.remove();
   CarritoTotal();
 };
@@ -119,13 +132,16 @@ const sumaCantidad = (e) => {
   const title = tr.querySelector(".title").textContent;
   carrito.forEach((item) => {
     if (item.title.trim() === title) {
+      // Validamos que el input de cantidad de productos no sea inferior a 1
       sumaInput.value < 1 ? (sumaInput.value = 1) : sumaInput.value;
+      // Actualizamos la cantidad de productos según el valor del input
       item.cantidad = sumaInput.value;
       CarritoTotal();
     }
   });
 };
 
+// Al presionar el boton de pagar, escondemos el modal, mostramos un alert, limpiamos el local storage y recargamos la página principal
 btnPagar.addEventListener("click", () => {
   $("#productsModal").modal("hide");
   localStorage.clear();
@@ -133,6 +149,7 @@ btnPagar.addEventListener("click", () => {
   location.reload();
 });
 
+// Agrega el arreglo carrito al local storage
 const addLocalStorage = () => {
   localStorage.setItem("carrito", JSON.stringify(carrito));
 };

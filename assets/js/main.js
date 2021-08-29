@@ -1,10 +1,12 @@
 const URL_API = "https://bsale-store-test.herokuapp.com";
 // const URL_API = "http://localhost:3000";
 
+// Con el evento DOMContentLoaded, una vez que el HTML está completamente cargado y el árbol DOM está construido se ejecuta la función getAllProducts para traer la data y posteriormente renderizarla
 document.addEventListener("DOMContentLoaded", async () => {
-  const dataAllProducts = await getAllProducts();
-  await paintProductCards(dataAllProducts);
+  const { products } = await getAllProducts();
+  await paintProductCards(products);
 
+  // Leemos los datos de localStorage, en caso de existir se le asigna al arrelo carrito
   const storage = JSON.parse(localStorage.getItem("carrito"));
   if (storage) {
     carrito = storage;
@@ -14,13 +16,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 const getAllProductsMenu = async () => {
   try {
-    const dataAllProducts = await getAllProducts();
-    await paintProductCards(dataAllProducts);
+    const { products } = await getAllProducts();
+    await paintProductCards(products);
   } catch (error) {
     console.log("Error: ", error);
   }
 };
 
+// Petición fetch para traer toda la data de "productos" de la base de datos
 const getAllProducts = async () => {
   try {
     const response = await fetch(`${URL_API}/Api/Products/`);
@@ -31,12 +34,13 @@ const getAllProducts = async () => {
   }
 };
 
+// Función que tiene por objeto crear y pintar en el DOM cada tarjeta de los productos obtenidos de la base de datos
 const paintProductCards = async (dataProducts) => {
   $(".product-card").remove();
 
   const contenedor = document.querySelector("#contenedor_products");
 
-  dataProducts.productos.forEach(({ name, url_image, price, discount }) => {
+  dataProducts.forEach(({ name, url_image, price, discount }) => {
     const divCard = document.createElement("div");
     divCard.classList.add(
       "col-lg-3",
@@ -51,6 +55,7 @@ const paintProductCards = async (dataProducts) => {
             <div class="product-image">
               <a href="#">
                   <img class="pic-1" src="${
+                    // Aplciamos operadores ternarios para determinar que imagen pintar dependiendo sí existe el recurso en la base de datos o no. Todo esto tiene la finalidad de entregar una mejor experiencia de usuario.
                     url_image == "" || url_image == null
                       ? `https://www.cuestalibros.com/content/images/thumbs/default-image_550.png`
                       : url_image
@@ -83,168 +88,31 @@ const paintProductCards = async (dataProducts) => {
           </div>
         </div>
       `;
+
+    // Insertamos el contenido en el contenedor
     contenedor.appendChild(divCard);
   });
 };
 
+// Función para buscar productos en la base de datos. Opera con el evento onkeyup, significa que a medida que el usuario teclea (al soltar la tecla específicamente) la busqueda se va realizando.
 const searchProduct = async () => {
   let inputSearch = document.querySelector("#input_search").value;
   try {
     const response = await fetch(`${URL_API}/Api/Products/${inputSearch}`);
-    const productsFound = await response.json();
-    await paintProductCards(productsFound);
+    const { products } = await response.json();
+    await paintProductCards(products);
   } catch (error) {
     console.log("Error: ", error);
   }
 };
 
+// Función encargada de de traer los datos de la categpria seleccionada en el menú para luego pintar los datos en pantalla.
 const getCategory = async (category) => {
   try {
-    const response = await fetch(
-      `${URL_API}/Api/Products/Category/${category}`
-    );
-    const categoryFound = await response.json();
-    await paintProductCards(categoryFound);
+    const response = await fetch(`${URL_API}/Api/Categories/${category}`);
+    const { Products } = await response.json();
+    await paintProductCards(Products);
   } catch (error) {
     console.log("Error: ", error);
   }
 };
-
-// /**************** Shopping Cart ****************/
-// let carrito = [];
-// const tbody = document.querySelector(".tbody");
-// const btnPagar = document.querySelector(".btn-pagar");
-
-// document.addEventListener("click", (event) => {
-//   if (event.target && event.target.className.includes("add-to-cart")) {
-//     addToCarritoItem(event);
-//   } else if (event.target && event.target.className.includes("delete")) {
-//     removeItemCarrito(event);
-//   }
-// });
-
-// const addToCarritoItem = (event) => {
-//   const button = event.target;
-//   const item = button.closest(".card");
-
-//   const itemTitle = item.querySelector(".title").textContent;
-//   const itemPrice = item.querySelector(".price").textContent.split("$")[1];
-//   const itemImg = item.querySelector(".pic-1").src;
-
-//   const newItem = {
-//     title: itemTitle,
-//     price: itemPrice,
-//     img: itemImg,
-//     cantidad: 1,
-//   };
-
-//   addItemCarrito(newItem);
-// };
-
-// const addItemCarrito = (newItem) => {
-//   const alert = document.querySelector(".alert");
-
-//   setTimeout(function () {
-//     alert.classList.add("hide");
-//   }, 1000);
-//   alert.classList.remove("hide");
-
-//   const InputElemnto = tbody.getElementsByClassName("input-elemento");
-//   for (let i = 0; i < carrito.length; i++) {
-//     if (carrito[i].title.trim() === newItem.title.trim()) {
-//       carrito[i].cantidad++;
-//       const inputValue = InputElemnto[i];
-//       inputValue.value++;
-//       CarritoTotal();
-//       return null;
-//     }
-//   }
-
-//   carrito.push(newItem);
-
-//   renderCarrito();
-// };
-
-// const renderCarrito = () => {
-//   tbody.innerHTML = "";
-//   carrito.map((item) => {
-//     const tr = document.createElement("tr");
-//     tr.classList.add("ItemCarrito");
-//     tr.innerHTML += `
-//       <td>
-//         <img src="${item.img}" alt="bebida" width="50" />
-//       </td>
-//       <td class="title">${item.title}</td>
-//       <td>${item.price}</td>
-//       <td>
-//       <input
-//         type="number"
-//         min="1"
-//         value="${item.cantidad}"
-//         class="w-50 pl-2 input-elemento"
-//       />
-//       </td>
-//       <td>
-//       <button class="delete btn btn-warning">ELIMINAR</button>
-//       </td>
-//     `;
-//     tbody.append(tr);
-
-//     tr.querySelector(".delete").addEventListener("click", removeItemCarrito);
-//     tr.querySelector(".input-elemento").addEventListener(
-//       "change",
-//       sumaCantidad
-//     );
-//   });
-//   CarritoTotal();
-// };
-
-// const CarritoTotal = () => {
-//   let Total = 0;
-//   const itemCartTotal = document.querySelector(".itemCartTotal");
-//   carrito.forEach((item) => {
-//     const precio = Number(item.price);
-//     Total = Total + precio * item.cantidad;
-//   });
-
-//   itemCartTotal.innerHTML = `Total a Pagar $${Total.toLocaleString("de-DE")}`;
-//   addLocalStorage();
-// };
-
-// const removeItemCarrito = (e) => {
-//   const buttonDelete = e.target;
-//   const tr = buttonDelete.closest(".ItemCarrito");
-//   const title = tr.querySelector(".title").textContent;
-//   for (let i = 0; i < carrito.length; i++) {
-//     if (carrito[i].title.trim() === title.trim()) {
-//       carrito.splice(i, 1);
-//     }
-//   }
-
-//   tr.remove();
-//   CarritoTotal();
-// };
-
-// const sumaCantidad = (e) => {
-//   const sumaInput = e.target;
-//   const tr = sumaInput.closest(".ItemCarrito");
-//   const title = tr.querySelector(".title").textContent;
-//   carrito.forEach((item) => {
-//     if (item.title.trim() === title) {
-//       sumaInput.value < 1 ? (sumaInput.value = 1) : sumaInput.value;
-//       item.cantidad = sumaInput.value;
-//       CarritoTotal();
-//     }
-//   });
-// };
-
-// btnPagar.addEventListener("click", () => {
-//   $("#productsModal").modal("hide");
-//   localStorage.clear();
-//   alert("Compra efectuada con éxito. Por favor revise su correo.");
-//   location.reload();
-// });
-
-// const addLocalStorage = () => {
-//   localStorage.setItem("carrito", JSON.stringify(carrito));
-// };
