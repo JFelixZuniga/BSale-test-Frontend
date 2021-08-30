@@ -20,7 +20,7 @@ Además, hay que agregar un buscador, el cual tiene que estar implementado a niv
 4. Se utiliza el localStorage para la persistencia de datos del cliente.
 5. El buscador de productos opera con el evento onkeyup, lo que significa que a medida que el usuario teclea (al soltar la tecla específicamente) la busqueda de producto(s) esta se va realizando.
 
-### Deploy: 
+### Deploy: https://bsale-store-front.netlify.app/
 
 <h1 align="center">
    <img src="./captura.png">
